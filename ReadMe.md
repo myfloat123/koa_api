@@ -48,7 +48,7 @@ app.listen(3000, () => {
 
 ## 3 测试
 
-在终端，使用`cd src`切换到`src`目录下，然后再使用`node main.js`启动服务器
+在终端，使用`node main.js`
 
 ![image-20230108172619238](C:\Users\27672\AppData\Roaming\Typora\typora-user-images\image-20230108172619238.png)
 
@@ -59,7 +59,7 @@ app.listen(3000, () => {
 安装nodemon工具
 
 ```
-npm install nodemon
+npm install nodemon -D
 ```
 
 编写`package.json`脚本
@@ -239,5 +239,62 @@ class UserController {
 }
 
 module.exports = new UserController()
+```
+
+# 六. 解析body
+
+## 1 安装koa-body
+
+```
+npm install koa-body
+```
+
+## 2 注册中间件
+
+改写`app/index.js`
+
+![image-20230108191911996](C:\Users\27672\AppData\Roaming\Typora\typora-user-images\image-20230108191911996.png)
+
+## 3 解析请求数据
+
+改写`user.controller.js`
+
+```
+const { createUser } = require('../service/user.service')
+class UserController {
+  async register(ctx, next) {
+    // 1. 获取数据
+    // console.log(ctx.request.body)
+    const { user_name, password } = ctx.request.body
+    // 2. 操作数据库
+    const res = await createUser(user_name, password)
+    console.log(res)
+    // 3. 返回结果
+    ctx.body = ctx.request.body
+  }
+
+  async login(ctx, next) {
+    ctx.body = '登录成功'
+  }
+}
+
+module.exports = new UserController()
+```
+
+## 4 拆分service层
+
+service层注意是做数据库处理
+
+创建`src/service/user.service.js`
+
+```
+class UserService {
+  async createUser(user_name, password) {
+    // todo: 写入数据库
+    return '写入数据库成功'
+  }
+}
+
+module.exports = new UserService()
 ```
 
