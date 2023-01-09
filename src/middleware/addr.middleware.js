@@ -1,4 +1,4 @@
-const { cartFormatError } = require('../constant/err.type')
+const { addrFormatError } = require('../constant/err.type')
 
 const validator = (rules) => {
   return async (ctx, next) => {
@@ -6,8 +6,8 @@ const validator = (rules) => {
       ctx.verifyParams(rules)
     } catch (err) {
       console.error(err)
-      cartFormatError.result = err
-      return ctx.app.emit('error', cartFormatError, ctx)
+      addrFormatError.result = err
+      return ctx.app.emit('error', addrFormatError, ctx)
     }
 
     await next()

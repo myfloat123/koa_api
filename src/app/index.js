@@ -21,8 +21,9 @@ app.use(koaBody({
     // 在option里的相对路径，不是相对的当前文件，相对process.cwd()  也就是D:\Code\Node.js\koa_api
     // uploadDir: './src/uploads',
     uploadDir: path.join(__dirname, '../uploads'),
-    keepExtensions: true
-  }
+    keepExtensions: true,
+  },
+  parsedMethods: ['POST', 'PUT', 'PATCH', 'DELETE']
 }))
 
 app.use(KoaStatic(path.join(__dirname, '../uploads')))
